@@ -1,6 +1,8 @@
 import GameModel from "../Model/GameModel";
 import Toast from '../Utils/Toast';
 
+import { upGameintegral } from '../Utils/RequestUtils';
+
 cc.Class({
   extends: cc.Component,
   properties: {
@@ -54,15 +56,14 @@ cc.Class({
     if (this.audioSource._state === 1) {
       this.audioSource.pause();//关闭音乐
     }
-
-
+    login.upintegral(this.gameModel.total);
 
     this.scheduleOnce(function () {
       cc.director.preloadScene("Login", function () {
         this.gameOver.active = false;
         cc.director.loadScene("Login");
       }.bind(this));
-    }.bind(this), 3);
+    }.bind(this), 1.5);
   },
 
   callback: function () {

@@ -39,7 +39,7 @@
   "xxteaKey": "9e2e6340-c661-47",
   "zipCompressJs": true,
   "mainCompressionType": "default",
-  "mainIsRemote": true,
+  "mainIsRemote": false,
   "nativeMd5Cache": true,
   "android": {
     "REMOTE_SERVER_ROOT": "",

@@ -1,5 +1,5 @@
-import AudioUtils from "../Utils/AudioUtils";
 import Toast from '../Utils/Toast';
+import { userInfo, gameRanking, addGametimes, updateGametimes, wxAuthCode, wxAuth, upGameintegral } from '../Utils/RequestUtils';
 
 cc.Class({
   extends: cc.Component,
@@ -33,17 +33,26 @@ cc.Class({
       type: cc.Prefab,
       default: null
     },
-
+    phButton: {
+      type: cc.Button,
+      default: null
+    },
   },
 
   onLoad() {
-    this.wxLogin()
+    console.log("onLoad")
+    this.wxAuthCode = 0;
+    this.uid = 2;
+    this.power = 0
+    wxAuthCode().then(res => {
+      this.wxAuthCode = res.code
+      this.wxLogin(this.wxAuthCode)
+    })
     this.gameSceneBGMAudioId = cc.audioEngine.play(this.worldSceneBGM, true, 1);
-    this.power = 3
-    this.powerShow.string = "剩余次数:" + this.power;
     this.nodePh.active = false
-    // 加载排行
-    this.setInfor()
+    this.powerShow.active = false;
+    this.nodePhValue.active = false;
+    window.login = this;
   },
 
   // 分享
@@ -59,100 +68,129 @@ cc.Class({
           console.log("share error", res)
         }
       });
+      addGametimes(this.uid).then(res => {
+        this.getPower();
+      })
     }
   },
 
-  wxLogin: function () {
-    // if (cc.sys.platform === cc.sys.WECHAT_GAME) {
-    //    wx.getSetting({
-    //   		success: (res) => {
-    //   			console.log(res)
-    //   			//是否授权
-    //   			if (!res.authSetting['scope.userInfo']) {
-    //            var button = wx.createUserInfoButton({
-    //   					type: "text",
-    //   					text: " ",
-    //   					style: {
-    //   						left: 0,
-    //   						top: 0,
-    //   						right: 0,
-    //   						bottom: 0,
-    //   						width: "1334",
-    //   						height: "720",
-    //   						lineHeight: 50,
-    //   						backgroundColor: "#f00",
-    //   						color: "#ffffff",
-    //   						textAlign: "center",
-    //   						fontSize: 16,
-    //   						borderRadius: 4
-    //   					}
-    //   				});
-    //   				button.show();
-    //   				//按钮点击事件
-    //   				button.onTap((res)=> {
-    //   					if (res.userInfo) {
-    //   						console.log(res.userInfo)
-    //   						button.hide();
-    //   						button.destroy();
-    //   						this.initGame()
-    //   					}
-    //   				});
-    //   			}else{
-    //   			  this.initGame()
-    //   			}
-    //   		}
-    //   		});
-    // } else {
-    //   this.initGame()
-    // }
+  wxLogin: function (code) {
     if (cc.sys.platform === cc.sys.WECHAT_GAME) {
-      var button = wx.createUserInfoButton({
-        type: "text",
-        text: " ",
-        style: {
-          left: 0,
-          top: 0,
-          right: 0,
-          bottom: 0,
-          width: "1334",
-          height: "720",
-          lineHeight: 50,
-          backgroundColor: "#f00",
-          color: "#ffffff",
-          textAlign: "center",
-          fontSize: 16,
-          borderRadius: 4
-        }
-      });
-      button.show();
-      //按钮点击事件
-      button.onTap((res) => {
-        if (res.userInfo) {
-          // this.wxName.string = res.userInfo.nickName;
-          // this.wxURL.string = res.userInfo.avatarUrl
-          button.hide();
-          button.destroy();
+      wx.getSetting({
+        success: (res) => {
+          if (!res.authSetting['scope.userInfo']) {
+            this.showAuth(code)
+          } else {
+            this.getUser(code);
+          }
         }
       });
     }
   },
 
-  onLogin: function () {
+  //获取用户点数
+  getPower: function () {
+    userInfo(this.uid).then(res => {
+      console.log("cb user", res.data.data)
+      this.power = 0;
+      if (res.data.data != undefined) {
+        this.power = res.data.data[0].game_life;
+      }
+      this.powerShow.string = this.uid + "剩余次数：" + this.power + "次";
+    });
+  },
+
+  //获取微信用户信息，并登陆
+  getUser: function (code) {
+    let self = this;
+    wx.getUserInfo({
+      success: function (res) {
+        console.log("wx user", res)
+        wxAuth(code, res.iv, res.encryptedData).then(res => {
+          let user=res.data.data.userInfo;
+          console.log(user)
+          self.uid = user.uid;
+          self.power = 0;
+          if (res.data.data != undefined) {
+            self.power = user.game_life;
+          }
+          self.powerShow.string = self.uid + "剩余次数：" + self.power + "次";
+        })
+      }
+    })
+  },
+
+  showAuth: function (code) {
+    var button = wx.createUserInfoButton({
+      type: "text",
+      text: " ",
+      style: {
+        left: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+        width: "1334",
+        height: "720",
+        lineHeight: 50,
+        backgroundColor: "#f00",
+        color: "#ffffff",
+        textAlign: "center",
+        fontSize: 16,
+        borderRadius: 4
+      }
+    });
+    button.show();
+    //按钮点击事件
+    button.onTap(res => {
+      if (res.userInfo) {
+        console.log("showAuth", res)
+        button.hide();
+        button.destroy();
+        this.getUser(code);
+      }
+    });
+  },
+
+  wxAuth: function () {
+    wx.login({
+      success(res) {
+        if (res.code) {
+          this.wxAuthCode = res.code;
+        } else {
+          console.log("wx登录失败" + res.errMsg);
+        }
+      }
+    });
+  },
+
+  begin: function () {
     this.initGame()
   },
+
+  // 增加游戏积分
+  upintegral: function (total) {
+    upGameintegral(this.uid, total).then(res => {
+    });
+  },
+
 
   initGame: function () {
     if (this.power <= 0) {
       Toast('剩余次数不够');
       return
     }
-    this.loginButton.node.active = false;
-    this.shartButton.node.active = false;
-    cc.director.preloadScene("Game", function () {
+    //扣减游戏次数
+    updateGametimes(this.uid).then(res => {
+      this.powerShow.node.active = false;
+      this.phButton.active = false;
       this.loginButton.node.active = false;
       this.shartButton.node.active = false;
-      cc.director.loadScene("Game");
-    }.bind(this));
+      cc.director.preloadScene("Game", function () {
+        this.loginButton.node.active = false;
+        this.shartButton.node.active = false;
+        cc.director.loadScene("Game");
+      }.bind(this));
+    })
   },
 
   showPh: function () {
@@ -166,48 +204,35 @@ cc.Class({
 
   // 设置排行数据
   setPhOver: function () {
-    var height=-45;
-    //重新排序 小到大
-    this.compare(this.arr_infor);
-    var nodePh=this.node.getChildByName('nodePH');
-    for(let i=0; i< this.arr_infor.length;  i++){
-      var node_block = cc.instantiate(this.nodePhValue);//实例化 
-      node_block.parent = nodePh; //添加到nodePh
-      node_block.getChildByName('label_id').getComponent(cc.Label).string = i+1;
-      node_block.getChildByName('label_name').getComponent(cc.Label).string = this.arr_infor[i].name;
-      node_block.getChildByName('label_score').getComponent(cc.Label).string =this.arr_infor[i].score;
-      var old_block=node_block.getPosition();
-      old_block.y=200+i*height;
-      node_block.setPosition(old_block);//设置位置
-    }
-
+    var height = -45;
+    this.arr_infor = [];
+    gameRanking().then(res => {
+      this.arr_infor = res.data.data;
+      //重新排序 小到大
+      this.compare(this.arr_infor);
+      var nodePh = this.node.getChildByName('nodePH');
+      for (let i = 0; i < this.arr_infor.length; i++) {
+        var node_block = cc.instantiate(this.nodePhValue);//实例化 
+        node_block.parent = nodePh; //添加到nodePh
+        node_block.getChildByName('label_id').getComponent(cc.Label).string = i + 1;
+        node_block.getChildByName('label_name').getComponent(cc.Label).string = this.arr_infor[i].nickname;
+        node_block.getChildByName('label_score').getComponent(cc.Label).string = this.arr_infor[i].game_integral;
+        var old_block = node_block.getPosition();
+        old_block.y = 200 + i * height;
+        node_block.setPosition(old_block);//设置位置
+      }
+    });
   },
 
-  setInfor: function () {
-    this.arr_infor = [
-      { name: '2504549300', touXiang: 0, score: 1003 },
-      { name: 'cocoscreator_666', touXiang: 1, score: 1002 },
-      { name: '我', touXiang: 2, score: 1001 },
-      { name: '褪了色旳回憶', touXiang: 3, score: 1001},
-      { name: '为爱控', touXiang: 4, score: 999 },
-      { name: '等尽歌悲欢', touXiang: 5, score: 888 },
-      { name: '妖媚＠', touXiang: 6, score: 777 },
-      { name: '时光あ瘦了~', touXiang: 7, score: 666 },
-      { name: '别格式化', touXiang: 8, score: 555 },
-      { name: '同餐伴枕', touXiang: 9, score: 333 },
-    ];
-  },
-
-  compare:function(property){
-    return function(a,b){
-        var value1 = a[property];
-        var value2 = b[property];
-        return value1 - value2;
+  compare: function (property) {
+    return function (a, b) {
+      var value1 = a[property];
+      var value2 = b[property];
+      return value1 - value2;
     }
-},
+  },
 
   onDestroy: function () {
     cc.audioEngine.stop(this.gameSceneBGMAudioId);
-  }
-
+  },
 });

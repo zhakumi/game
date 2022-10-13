@@ -1,4 +1,4 @@
-import {CELL_WIDTH, CELL_HEIGHT, GRID_PIXEL_WIDTH, GRID_PIXEL_HEIGHT, ANITIME} from '../Model/ConstValue';
+import {CELL_WIDTH, CELL_HEIGHT, GRID_PIXEL_WIDTH, GRID_PIXEL_HEIGHT, ANITIME,GRID_WIDTH, GRID_HEIGHT} from '../Model/ConstValue';
 
 import AudioUtils from "../Utils/AudioUtils";
 
@@ -45,9 +45,9 @@ cc.Class({
 
     initWithCellModels: function(cellsModels){
         this.cellViews = [];
-        for(var i = 1;i<=9;i++){
+        for(var i = 1;i<=GRID_WIDTH;i++){
             this.cellViews[i] = [];
-            for(var j = 1;j<=9;j++){
+            for(var j = 1;j<=GRID_HEIGHT;j++){
                 var type = cellsModels[i][j].type;
                 var aniView = cc.instantiate(this.aniPre[type]);
                 aniView.parent = this.node;
@@ -141,8 +141,8 @@ cc.Class({
     },
     // 显示选中的格子背景
     updateSelect: function(pos){
-         for(var i = 1;i <=9 ;i++){
-            for(var j = 1 ;j <=9 ;j ++){
+         for(var i = 1;i <=GRID_WIDTH ;i++){
+            for(var j = 1 ;j <=GRID_HEIGHT ;j ++){
                 if(this.cellViews[i][j]){
                     var cellScript = this.cellViews[i][j].getComponent("CellView");
                     if(pos.x == j && pos.y ==i){
@@ -161,8 +161,8 @@ cc.Class({
      * 根据cell的model返回对应的view
      */
     findViewByModel: function(model){
-        for(var i = 1;i <=9 ;i++){
-            for(var j = 1 ;j <=9 ;j ++){
+        for(var i = 1;i <=GRID_WIDTH ;i++){
+            for(var j = 1 ;j <=GRID_HEIGHT ;j ++){
                 if(this.cellViews[i][j] && this.cellViews[i][j].getComponent("CellView").model == model){
                     return {view:this.cellViews[i][j],x:j, y:i};
                 }
@@ -227,12 +227,4 @@ cc.Class({
     playEffect: function(effectsQueue){
         this.effectLayer.getComponent("EffectLayer").playEffects(effectsQueue);
     }
-
-
-
-
-    // called every frame, uncomment this function to activate update callback
-    // update: function (dt) {
-
-    // },
 });

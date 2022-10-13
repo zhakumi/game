@@ -22,7 +22,7 @@ export const CELL_STATUS = {
 export const GRID_WIDTH = 9;
 export const GRID_HEIGHT = 9;
 
-export const CELL_WIDTH = 70;
+export const CELL_WIDTH = 65;
 export const CELL_HEIGHT = 70;
 
 export const GRID_PIXEL_WIDTH = GRID_WIDTH * CELL_WIDTH;
@@ -39,4 +39,6 @@ export const ANITIME = {
   DIE_SHAKE: 0.4 // 死前抖动
 }
 
+export const PATH="https://xcxtest.canban.cn/api/wxgame";
+export const APP_ID="wxc7b6d38370fdae97";
 

@@ -23,8 +23,6 @@ export default class GameModel {
       }
     }
 
-    // this.mock();
-
     for (var i = 1; i <= GRID_WIDTH; i++) {
       for (var j = 1; j <= GRID_HEIGHT; j++) {
         //已经被mock数据生成了
@@ -45,7 +43,6 @@ export default class GameModel {
         }
       }
     }
-
   }
 
   mock() {
@@ -145,22 +142,13 @@ export default class GameModel {
     return queue;
   }
 
-  printInfo() {
-    for (var i = 1; i <= 9; i++) {
-      var printStr = "";
-      for (var j = 1; j <= 9; j++) {
-        printStr += this.cells[i][j].type + " ";
-      }
-      console.log(printStr);
-    }
-  }
-
   getCells() {
     return this.cells;
   }
   // controller调用的主要入口
   // 点击某个格子
   selectCell(pos) {
+    console.log("ss")
     this.changeModels = [];// 发生改变的model，将作为返回值，给view播动作
     this.effectsQueue = []; // 动物消失，爆炸等特效
     var lastPos = this.lastPos;
@@ -268,6 +256,7 @@ export default class GameModel {
   }
   // 下落
   down() {
+    console.log("down")
     let newCheckPoint = [];
     for (var i = 1; i <= GRID_WIDTH; i++) {
       for (var j = 1; j <= GRID_HEIGHT; j++) {
