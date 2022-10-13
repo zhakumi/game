@@ -37,6 +37,7 @@ cc.Class({
       type: cc.Button,
       default: null
     },
+    
   },
 
   onLoad() {
@@ -204,7 +205,7 @@ cc.Class({
 
   // 设置排行数据
   setPhOver: function () {
-    var height = -45;
+    var height = -80;
     this.arr_infor = [];
     gameRanking().then(res => {
       this.arr_infor = res.data.data;
@@ -223,6 +224,7 @@ cc.Class({
       }
     });
   },
+
 
   compare: function (property) {
     return function (a, b) {

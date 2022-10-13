@@ -99,14 +99,14 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 9,
-      "g": 9,
-      "b": 9,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
+      "width": 31.13,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -118,8 +118,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -270,
-        87.206,
+        -272.491,
+        0,
         0,
         0,
         0,
@@ -158,10 +158,10 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "",
-    "_N$string": "",
-    "_fontSize": 30,
-    "_lineHeight": 30,
+    "_string": "id",
+    "_N$string": "id",
+    "_fontSize": 40,
+    "_lineHeight": 40,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -207,15 +207,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 9,
-      "g": 9,
-      "b": 9,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 73.4,
-      "height": 37.8
+      "width": 100.06,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -226,8 +226,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -240,
-        87.206,
+        -205,
+        0,
         0,
         0,
         0,
@@ -266,10 +266,10 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Label",
-    "_N$string": "Label",
-    "_fontSize": 30,
-    "_lineHeight": 30,
+    "_string": "name",
+    "_N$string": "name",
+    "_fontSize": 40,
+    "_lineHeight": 40,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -315,15 +315,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 9,
-      "g": 9,
-      "b": 9,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 73.4,
-      "height": 37.8
+      "width": 97.81,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -334,8 +334,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        150,
-        87.206,
+        188.07,
+        0,
         0,
         0,
         0,
@@ -374,10 +374,10 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Label",
-    "_N$string": "Label",
-    "_fontSize": 30,
-    "_lineHeight": 30,
+    "_string": "score",
+    "_N$string": "score",
+    "_fontSize": 40,
+    "_lineHeight": 40,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
