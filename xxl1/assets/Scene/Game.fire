@@ -466,7 +466,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -286.999,
+        -290.999,
         -470.118,
         0,
         0,
@@ -869,14 +869,14 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 235,
-      "g": 20,
-      "b": 67,
+      "r": 241,
+      "g": 24,
+      "b": 54,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 31.25,
+      "width": 33.75,
       "height": 25
     },
     "_anchorPoint": {
@@ -930,7 +930,7 @@
     "_dstBlendFactor": 771,
     "_string": "0",
     "_N$string": "0",
-    "_fontSize": 25,
+    "_fontSize": 27,
     "_lineHeight": 25,
     "_enableWrapText": true,
     "_N$file": {

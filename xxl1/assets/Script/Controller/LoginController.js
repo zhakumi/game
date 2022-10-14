@@ -176,11 +176,11 @@ cc.Class({
 
 
   initGame: function () {
-    // if (this.power <= 0) {
-    //   Toast('剩余次数不够');
-    //   return
-    // }
-    //扣减游戏次数
+    if (this.power <= 0) {
+      Toast('剩余次数不够');
+      return
+    }
+    // 扣减游戏次数
     updateGametimes(this.uid).then(res => {
       this.powerShow.node.active = false;
       this.phButton.node.active = false;
