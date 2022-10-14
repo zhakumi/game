@@ -37,7 +37,7 @@ cc.Class({
       type: cc.Button,
       default: null
     },
-    
+
   },
 
   onLoad() {
@@ -97,7 +97,7 @@ cc.Class({
       if (res.data.data != undefined) {
         this.power = res.data.data[0].game_life;
       }
-      this.powerShow.string = this.uid + "剩余次数：" + this.power + "次";
+      this.powerShow.string = "剩余次数：" + this.power + "次";
     });
   },
 
@@ -108,14 +108,14 @@ cc.Class({
       success: function (res) {
         console.log("wx user", res)
         wxAuth(code, res.iv, res.encryptedData).then(res => {
-          let user=res.data.data.userInfo;
+          let user = res.data.data.userInfo;
           console.log(user)
           self.uid = user.uid;
           self.power = 0;
           if (res.data.data != undefined) {
             self.power = user.game_life;
           }
-          self.powerShow.string = self.uid + "剩余次数：" + self.power + "次";
+          self.powerShow.string = "剩余次数：" + self.power + "次";
         })
       }
     })
@@ -176,19 +176,17 @@ cc.Class({
 
 
   initGame: function () {
-    if (this.power <= 0) {
-      Toast('剩余次数不够');
-      return
-    }
+    // if (this.power <= 0) {
+    //   Toast('剩余次数不够');
+    //   return
+    // }
     //扣减游戏次数
     updateGametimes(this.uid).then(res => {
       this.powerShow.node.active = false;
-      this.phButton.active = false;
+      this.phButton.node.active = false;
       this.loginButton.node.active = false;
       this.shartButton.node.active = false;
       cc.director.preloadScene("Game", function () {
-        this.loginButton.node.active = false;
-        this.shartButton.node.active = false;
         cc.director.loadScene("Game");
       }.bind(this));
     })

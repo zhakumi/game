@@ -185,7 +185,7 @@
       "array": [
         0,
         0,
-        511.82101363660325,
+        209.57814771583418,
         0,
         0,
         0,
@@ -1564,8 +1564,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 640,
-      "height": 1136
+      "width": 720,
+      "height": 1280
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1651,15 +1651,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 9,
-      "g": 9,
-      "b": 9,
+      "r": 8,
+      "g": 7,
+      "b": 7,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 116.67,
-      "height": 25.2
+      "width": 145.84,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1712,8 +1712,8 @@
     "_dstBlendFactor": 771,
     "_string": "积分上传中...",
     "_N$string": "积分上传中...",
-    "_fontSize": 20,
-    "_lineHeight": 20,
+    "_fontSize": 25,
+    "_lineHeight": 40,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
